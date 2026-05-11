@@ -2,8 +2,8 @@ name: FinOps Weekly Scan
 
 on:
   schedule:
-    - cron: "0 8 * * 1"  # Every Monday at 8 AM UTC
-  workflow_dispatch:      # Allows you to trigger the scan manually from GitHub UI
+    - cron: "0 8 * * 1"  # Har Monday 8 AM UTC
+  workflow_dispatch:       # Manual trigger bhi kar sakte ho
 
 jobs:
   scan:
@@ -35,23 +35,7 @@ jobs:
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         run: |
           cd backend
-          python3 -c "
-          import asyncio
-          from app.scanner.orchestrator import ScanOrchestrator
-
-          async def main():
-              o = ScanOrchestrator()
-              result = await o.run()
-              print(f'Scan complete!')
-              print(f'Findings: {result.findings_count}')
-              print(f'Monthly waste: ${result.total_monthly_waste_usd:,.0f}')
-              print(f'Annual waste: ${result.total_annual_waste_usd:,.0f}')
-              print(f'Waste %: {result.waste_percentage}%')
-              for f in result.findings:
-                  print(f'  - [{f.severity.upper()}] {f.resource_id}: save ${f.monthly_savings_usd}/mo')
-
-          asyncio.run(main())
-          "
+          python3 scan_runner.py
 
       - name: Upload scan report
         uses: actions/upload-artifact@v4
