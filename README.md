@@ -115,17 +115,6 @@ Works without real credentials — realistic mock data loads automatically for d
 
 ---
 
-## Interview Talking Points
-
-- **35% waste identified** across 847+ cloud resources
-- **Concurrent scanning** — AWS + Azure simultaneously via asyncio.gather()
-- **Adapter pattern** — both clouds return the same WasteFinding model
-- **Mock mode** — full demo possible without real credentials
-- **GitOps ready** — GitHub Actions weekly cron, zero manual intervention
-- **Human-in-the-loop** — Terraform PRs auto-generated, human approval required before any change
-
----
-
 ## Author
 
 **Siddharth** — [GitHub](https://github.com/sp3640)
