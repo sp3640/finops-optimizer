@@ -1,0 +1,21 @@
+# Web Framework & Server
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+pydantic==2.9.2
+
+# AWS Integration
+boto3==1.35.36
+botocore==1.35.36
+
+# Azure Integration
+azure-identity==1.19.0
+azure-mgmt-compute==33.0.0
+azure-mgmt-monitor==6.0.2
+
+# Async Utilities & Environment
+httpx==0.27.2
+python-dotenv==1.0.1
+
+# Testing
+pytest==8.3.3
+pytest-asyncio==0.24.0
