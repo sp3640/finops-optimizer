@@ -1,0 +1,60 @@
+name: FinOps Weekly Scan
+
+on:
+  schedule:
+    - cron: "0 8 * * 1"  # Every Monday at 8 AM UTC
+  workflow_dispatch:      # Allows you to trigger the scan manually from GitHub UI
+
+jobs:
+  scan:
+    name: Multi-cloud cost scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Python setup
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Dependencies install karo
+        run: |
+          cd backend
+          pip install -r requirements.txt
+
+      - name: Scan run karo
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        run: |
+          cd backend
+          python3 -c "
+          import asyncio
+          from app.scanner.orchestrator import ScanOrchestrator
+
+          async def main():
+              o = ScanOrchestrator()
+              result = await o.run()
+              print(f'Scan complete!')
+              print(f'Findings: {result.findings_count}')
+              print(f'Monthly waste: ${result.total_monthly_waste_usd:,.0f}')
+              print(f'Annual waste: ${result.total_annual_waste_usd:,.0f}')
+              print(f'Waste %: {result.waste_percentage}%')
+              for f in result.findings:
+                  print(f'  - [{f.severity.upper()}] {f.resource_id}: save ${f.monthly_savings_usd}/mo')
+
+          asyncio.run(main())
+          "
+
+      - name: Upload scan report
+        uses: actions/upload-artifact@v4
+        with:
+          name: finops-scan-report
+          retention-days: 30
