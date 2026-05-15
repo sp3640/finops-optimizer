@@ -6,7 +6,7 @@ import {
 } from "recharts";
 import axios from "axios";
 
-const API = "http://127.0.0.1:8000";
+const API = "https://passionate-nourishment-production-4a4b.up.railway.app/";
 
 const SEVERITY_COLOR = {
   critical: "#E24B4A",
