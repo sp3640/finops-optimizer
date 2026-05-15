@@ -271,7 +271,7 @@ export default function App() {
 
             <div style={{ marginTop: 16, background: "#1e1e2e", borderRadius: 10, padding: 16, textAlign: "center" }}>
               <p style={{ color: "#666", fontSize: 13, margin: "0 0 12px" }}>
-                Scan nahi chala abhi tak — findings dekhne ke liye scan run karo
+                Run the scan to see the findings
               </p>
               <button onClick={runScan} disabled={scanning} style={{
                 padding: "10px 24px", fontSize: 14, borderRadius: 8,
