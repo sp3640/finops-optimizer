@@ -6,7 +6,7 @@ import {
 } from "recharts";
 import axios from "axios";
 
-const API = "https://passionate-nourishment-production-4a4b.up.railway.app/";
+const API = "https://passionate-nourishment-production-4a4b.up.railway.app";
 
 const SEVERITY_COLOR = {
   critical: "#E24B4A",
@@ -133,7 +133,7 @@ export default function App() {
       }));
       setTab("Findings");
     } catch (e) {
-      alert("Scan failed — API chal rahi hai?");
+      alert("Scan failed — Please check if the API is running?");
     } finally {
       setScanning(false);
     }
