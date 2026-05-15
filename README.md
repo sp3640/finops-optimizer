@@ -29,13 +29,32 @@ FinOps Cloud Cost Optimizer continuously scans AWS and Azure, quantifies waste p
 
 ---
 
+
+
+
 ## Architecture
 
-```
-![Architecture Diagram](docs/architechture.svg)
+```mermaid
+flowchart TD
+    A[GitHub Actions - Weekly Cron] --> B[FastAPI Backend]
+    B --> C[AWS Scanner]
+    B --> D[Azure Scanner]
+    C --> E[EC2 - CPU Check]
+    C --> F[RDS - Connections]
+    C --> G[Elastic IPs]
+    D --> H[VMs - CPU Check]
+    D --> I[Managed Disks]
+    E & F & G & H & I --> J[WasteFinding Model]
+    J --> K[Terraform PR Generator]
+    J --> L[React Dashboard - Vercel]
+    K --> M[GitHub Pull Request]
+    M --> N[Engineer Review]
+    N --> O[ArgoCD - Apply Fix]
+    J --> P[Slack Weekly Digest]
 ```
 
----
+
+
 
 ## What Gets Detected
 
@@ -277,6 +296,3 @@ on:
 
 **Siddharth** — [GitHub](https://github.com/sp3640)
 
-
-
-dont change any thing give as it is 
